@@ -12,11 +12,13 @@ def home():
     c = conn.cursor()
 
     if request.method == 'POST':
-
+        # A message'), ('256.256.256.256', 'You have been hacked!)
+        # "INSERT INTO messages VALUES ('127.0.0.1', 'A message'), ('256.256.256.256', 'You have been hacked!))"
+        # above results in two SQL row inserts
         transaction = "INSERT INTO messages VALUES ('{}', '{}')".format(
             request.remote_addr,
             request.form['content'],
-        )
+        ).strip("'")#strips single quotes from input to avoid breaking out of SQL syntax
         c.execute(transaction)
         conn.commit()
 
